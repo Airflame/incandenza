@@ -5,7 +5,6 @@ inc::Quad::Quad(std::vector<sf::Vertex> vertices, sf::Vector2f origin) {
     this->origin = origin;
     sf::Vertex prev = polygon[polygon.size() - 1];
     for (int i = 0; i < vertices.size(); i++) {
-        polygon[i].color = sf::Color(255, 255, 255, 100);
         sf::Vertex curr = polygon[i];
         float x0 = prev.position.x;
         float y0 = prev.position.y;
@@ -18,10 +17,25 @@ inc::Quad::Quad(std::vector<sf::Vertex> vertices, sf::Vector2f origin) {
         surfaceAngles.emplace_back(surfaceAngle);
         prev = curr;
     }
+    setColor(sf::Color(255, 255, 255));
 }
 
 void inc::Quad::draw(sf::RenderWindow* window) {
     window->draw(&polygon[0], polygon.size(), sf::Quads);
+}
+
+void inc::Quad::setColor(sf::Color color) {
+    this->color = color;
+    for (int i = 0; i < polygon.size(); i++)
+        polygon[i].color = color;
+}
+
+sf::Color inc::Quad::getReflectedColor(sf::Color rayColor) {
+    sf::Color reflectedColor;
+    reflectedColor.r = rayColor.r > color.r ? color.r : rayColor.r;
+    reflectedColor.g = rayColor.g > color.g ? color.g : rayColor.g;
+    reflectedColor.b = rayColor.b > color.b ? color.b : rayColor.b;
+    return reflectedColor;
 }
 
 bool inc::Quad::isCollision(sf::Vector2f point) {
@@ -47,7 +61,6 @@ float inc::Quad::calculateSurfaceAngle(sf::Vector2f line) const {
     float degrees = atan((origin.y - point.y) / (origin.x - point.x)) / M_PI * 180;
     if (degrees < 0)
         degrees += 360;
-    std::cout << degrees << std::endl;
     return degrees;
 }
 

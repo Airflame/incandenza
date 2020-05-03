@@ -12,6 +12,7 @@ namespace inc {
         std::vector<sf::Vertex> polygon;
         std::vector<sf::Vector2f> lineCoefficients;
         std::vector<float> surfaceAngles;
+        sf::Color color;
         sf::Vector2f origin;
         bool isLineCrossed(sf::Vector2f point, float a, float b) const;
         float calculateSurfaceAngle(sf::Vector2f line) const;
@@ -19,6 +20,8 @@ namespace inc {
     public:
         Quad(std::vector<sf::Vertex> vertices, sf::Vector2f origin);
         void draw(sf::RenderWindow* window);
+        void setColor(sf::Color color);
+        sf::Color getReflectedColor(sf::Color rayColor);
         bool isCollision(sf::Vector2f point);
         float getSurfaceAngle(sf::Vector2f prevPoint, sf::Vector2f point);
     };

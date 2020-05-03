@@ -11,6 +11,7 @@ void inc::Ray::draw(sf::RenderWindow* window) {
 void inc::Ray::calculate(sf::Vector2f point, float initialDegrees, std::vector<inc::Quad>* shapes) {
     vertices.clear();
     float angle = initialDegrees;
+    sf::Color color(255, 255, 255);
     std::vector<inc::Quad>* objects = shapes;
     float rad, dx, dy;
     sf::Vector2f prevPoint;
@@ -36,7 +37,12 @@ void inc::Ray::calculate(sf::Vector2f point, float initialDegrees, std::vector<i
                     if (angle > 360)
                         angle -= 360;
                     notCollided = false;
-                    vertices.emplace_back(point);
+                    sf::Vertex v(point);
+                    v.color = color;
+                    vertices.emplace_back(v);
+                    color = object.getReflectedColor(color);
+                    v.color = color;
+                    vertices.emplace_back(v);
                     rad = angle / 180.f * M_PI;
                     dx = cos(rad) / 10;
                     dy = sin(rad) / 10;
@@ -49,7 +55,9 @@ void inc::Ray::calculate(sf::Vector2f point, float initialDegrees, std::vector<i
                 }
             }
             if (point.x <= 0 or point.x > 800 or point.y <= 0 or point.y > 800) {
-                vertices.emplace_back(point);
+                sf::Vertex v(point);
+                v.color = color;
+                vertices.emplace_back(v);
                 break;
             }
             prevPoint = point;

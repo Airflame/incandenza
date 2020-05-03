@@ -27,11 +27,22 @@ int main()
     v2.emplace_back(sf::Vector2f(450, 310));
     v2.emplace_back(sf::Vector2f(403, 252));
     inc::Quad quad2(v2, sf::Vector2f(450, 250));
+    std::vector<sf::Vertex> v3;
+    v3.emplace_back(sf::Vector2f(261, 500));
+    v3.emplace_back(sf::Vector2f(312, 550));
+    v3.emplace_back(sf::Vector2f(233, 600));
+    v3.emplace_back(sf::Vector2f(112, 550));
+    inc::Quad quad3(v3, sf::Vector2f(250, 520));
+
+    quad1.setColor(sf::Color::Magenta);
+    quad2.setColor(sf::Color::Blue);
+    quad3.setColor(sf::Color::Red);
 
     std::vector<inc::Quad> shapes;
     shapes.emplace_back(quad0);
     shapes.emplace_back(quad1);
     shapes.emplace_back(quad2);
+    shapes.emplace_back(quad3);
 
     inc::Source source(sf::Vector2f(100, 100), 42);
     inc::Ray ray;
